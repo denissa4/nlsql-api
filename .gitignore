@@ -1,0 +1,5 @@
+.idea
+test_nlsql_api/.pytest_cache
+*/__pycache__
+nlsql_api.egg-info
+dist
