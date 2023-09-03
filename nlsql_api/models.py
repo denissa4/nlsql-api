@@ -5,23 +5,9 @@ from pydantic import BaseModel, Field, ValidationError, model_validator
 from .choices import *
 
 
-# Header = TypedDict('Header',
-#                    {'Authorization': str,
-#                     'Content-Type': str
-#                     })
-
-
 class Header(BaseModel):
     Authorization: str
     Content_Type: str = Field(alias="Content-Type", default="application/json")
-
-
-class DataSource(BaseModel):
-    name: str
-    db_syntax: DbSyntaxEnum
-    platform: PlatformEnum = PlatformEnum.api
-    suggestion_mode: bool = False
-    additional_regular_exp_symbols: str = ""
 
 
 class Arguments(BaseModel):
@@ -59,7 +45,7 @@ class ColumnOtherParams(BaseModel):
 
 class Columns(BaseModel):
     label_name: str
-    default_label_name: str
+    default_label_name: Optional[str] = None
     column_other_params: Optional[List[ColumnOtherParams]] = None
 
 
@@ -148,8 +134,8 @@ class ColumnArg(BaseModel):
 
 
 class Table(BaseModel):
-    spreadsheet_link: str
-    spreadsheet_sheet: str
+    spreadsheet_link: Optional[str] = None
+    spreadsheet_sheet: Optional[str] = None
     table_name: str
     is_first_line: bool = False
     db_schema: str = ""
@@ -166,6 +152,22 @@ class Joins(BaseModel):
     join_column: str
 
 
-class Body(DataSource):
+class DataSource(BaseModel):
+    name: str
+    db_syntax: DbSyntaxEnum
+    platform: PlatformEnum = PlatformEnum.api
+    suggestion_mode: bool = False
+    additional_regular_exp_symbols: str = ""
+    storage_type: StorageTypeEnum = 2
     tables: Optional[List[Table]] = []
     joins: Optional[List[Joins]] = None
+
+
+class DistinctValues(BaseModel):
+    label_name: str
+    values: List[str]
+
+
+class DistinctValuesTable(BaseModel):
+    table_name: str
+    columns_distinct_values: List[DistinctValues]

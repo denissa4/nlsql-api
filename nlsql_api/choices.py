@@ -13,6 +13,11 @@ class DbSyntaxEnum(IntEnum):
     snowflake = 9
 
 
+class StorageTypeEnum(IntEnum):
+    google_spreadsheet = 1
+    cosmos_db = 2
+
+
 class PlatformEnum(IntEnum):
     messengers = 1
     api = 2
