@@ -46,7 +46,7 @@ class ColumnOtherParams(BaseModel):
 class Columns(BaseModel):
     label_name: str
     default_label_name: Optional[str] = None
-    column_other_params: Optional[List[ColumnOtherParams]] = None
+    column_other_params: Optional[ColumnOtherParams] = None
 
 
 class ComplexArguments(BaseModel):

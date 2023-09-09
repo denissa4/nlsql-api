@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name="nlsql-api",
     packages=["nlsql_api"],
-    version="0.0.5",
+    version="0.0.6",
     description="Python client for NLSQL API",
     url="https://github.com/denissa4/nlsql-api",
     project_urls={

@@ -1,4 +1,5 @@
 import requests
+import json
 from typing import Type
 
 from nlsql_api.models import *
@@ -58,17 +59,21 @@ class NLSQL:
         return requests.get(f"{self._url_distinct_values()}?table_name={table_name}&columns_names={columns_names}",
                             headers=self._headers, params=params, **kwargs)
 
-    def put_distinct_values(self, data: Optional[DistinctValuesTable] = None, **kwargs) -> requests.Response:
+    def put_distinct_values(self, data: Optional[List[DistinctValuesTable]] = None, **kwargs) -> requests.Response:
         self._check_token()
-        data = self._check_data(data, DistinctValuesTable)
-        return requests.put(self._url_distinct_values(), headers=self._headers, data=data, **kwargs)
+        data_checked = []
+        for el in data:
+            data_checked.append(self._check_data(el, DistinctValuesTable, json=False))
+        return requests.put(self._url_distinct_values(), headers=self._headers, data=json.dumps(data_checked), **kwargs)
 
     def _check_token(self):
         if not self._token:
             raise ValueError("Set token value to make requests")
 
     @staticmethod
-    def _check_data(data, d_type: Type[BaseModel] = DataSource):
+    def _check_data(data, d_type: Type[BaseModel] = DataSource, json=True):
         if not isinstance(data, d_type):
             raise ValueError(f"Data must be models.{d_type}, not {type(data)}")
-        return data.model_dump_json(exclude_none=True)
+        if json:
+            return data.model_dump_json(exclude_none=True)
+        return data.model_dump(exclude_none=True)
