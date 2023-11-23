@@ -1,6 +1,7 @@
 NLSQL Python Client
 ======================
-NLSQL Python Client enables Python programs to set up NLSQL Customization API.
+NLSQL Python Client enables Python programs to set up NLSQL Customization API. 
+Please use POST to create and PUT for update or append you database structure.
 
 Installation
 ------------
@@ -24,7 +25,7 @@ Getting Started
     print(response.json())
 
     # Create body for [POST, PUT] requests
-    column1 = nlsql_api.models.Column(label_name="ColumnName1")
+    column1 = nlsql_api.models.Columns(label_name="ColumnName1")
     table1 = nlsql_api.models.Table(table_name="Table1", columns=[column1])
     data_source = nlsql_api.models.DataSource(name="DataSource-1", db_syntax=8, platform=2, tables=[table1])
     
@@ -42,8 +43,8 @@ Getting Started
     print(response.json())
 
     # PUT
-    distinct_values = models.DistinctValues(label_name="ColumnName1", values=["Coca-Cola", "Sprite", "Fanta"])
-    distinct_values_table = models.DistinctValuesTable(table_name="TableName1", columns_distinct_values=[distinct_values])
+    distinct_values = nlsql_api.models.DistinctValues(label_name="ColumnName1", values=["Coca-Cola", "Sprite", "Fanta"])
+    distinct_values_table = nlsql_api.models.DistinctValuesTable(table_name="TableName1", columns_distinct_values=[distinct_values])
 
     nlsql.put_distinct_values(data=distinct_values_table)
 
